@@ -1,0 +1,13 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<div class="container" style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:36px;">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-10 col-12 mr-auto ml-auto mt-5">
+            <h2 style="font-size: 36px; font-family: 'Quicksand', sans-serif; line-height: 56px;">You have been logged out</h2>
+            <div class="border-top mb-4 mt-4 pt-4">
+                <a class="ml-2" href="{% url 'login' %}">Log in Again</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

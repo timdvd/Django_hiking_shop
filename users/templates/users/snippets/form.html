@@ -1,0 +1,11 @@
+{% load crispy_forms_tags %}
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4" style="font-size: 36px; font-family: 'Playfair Display', serif; line-height: 56px;">Login</legend>
+        {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Sign In</button>
+    </div>
+</form>

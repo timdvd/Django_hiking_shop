@@ -1,0 +1,48 @@
+{% extends 'products/base.html'%}
+
+{% block content %}
+<div class="container">
+    {% if query%}
+    <h1 class="mt-5 mr-auto ml-auto" style="font-family: 'Quicksand', sans-serif;font-size:36px; line-height:72px; text-align: center;">Result : {{ query }}</h1>
+    {% endif %}
+    <div class="row">
+        {% for obj in object_list%}
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12">
+            <div class="product">
+                <a href="{% url 'product_detail' obj.slug %}" class="product-overlay"></a>
+                <div class="product-top">
+                    <div class="product-size">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Size 
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">Small</a>
+                              <a class="dropdown-item" href="#">Medium</a>
+                              <a class="dropdown-item" href="#">Large</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-color">
+                        <ul>
+                            <li><a href="#" class="color blue"></a></li>
+                            <li><a href="#" class="color yellow"></a></li>
+                            <li><a href="#" class="color black"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="product-image">
+                    <img src="{{ obj.image.url }}" alt="">
+                </div>
+
+                <div class="product-bottom">
+                    <div class="product-name">{{ obj.title }}</div>
+                    <div class="product-price">{{ obj.price }} <i class="fas fa-euro-sign"></i></div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

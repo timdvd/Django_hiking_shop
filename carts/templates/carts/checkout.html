@@ -1,0 +1,98 @@
+{% extends 'products/base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row text-center">
+        {% if not billing_profile %}
+        <div class="col-lg-10 col-md-10 col-sm-8 col-12 mr-auto ml-auto">
+            <h1 class='mt-3' style="font-size: 32px; font-family: 'Quicksand', sans-serif; line-height: 32px;">Login</p>
+            <div class="content-section mt-4 text-left">
+                {% include 'carts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+            </div>
+            <h1 class='mt-5' style="font-size: 32px; font-family: 'Quicksand', sans-serif; line-height: 32px;">Continue as guest</p>
+            <div class="content-section mt-4 text-left">
+                {% url 'guest_register' as guest_register_url %}
+                {% include 'carts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
+            </div>
+        </div>
+        {% else %}
+        <div class="col-lg-10 col-md-10 col-sm-8 col-12 mr-auto ml-auto">
+            {% if not object.shipping_address %}
+            <div class="content-section text-left mt-5">
+                <p class="lead mb-4" style="font-family: 'Quicksand', sans-serif;font-size:24px; line-height:48px; text-align: center;">Shipping Address</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {% url 'checkout_address' as checkout_address %}
+                        {% include 'addresses/snippets/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address address_type='shipping' %}
+                    </div>
+                    <div class="col-lg-6">
+                        {% url 'checkout_address_reuse' as checkout_address_reuse %}
+                        {% include 'addresses/addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+                    </div>
+                </div> 
+            </div>
+            {% elif not object.billing_address %}
+
+            <div class="content-section text-left mt-5">
+                <p class="lead mb-4" style="font-family: 'Quicksand', sans-serif;font-size:24px; line-height:48px; text-align: center;">Billing Address</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {% url 'checkout_address' as checkout_address %}
+                        {% include 'addresses/snippets/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address address_type='billing' %}
+                    </div>
+                    <div class="col-lg-6">
+                        {% url 'checkout_address_reuse' as checkout_address_reuse %}
+                        {% include 'addresses/addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri  address_type='billing' action_url=checkout_address_reuse %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                {% if not has_card %}
+                <div class="credit-card mt-5" style="text-align: left; width: 100%;">
+                    <h1 for="card-element" style="text-align:center;font-size: 36px; font-family: 'Quicksand', sans-serif; line-height: 56px;font-weight: 600;">
+                        Credit or debit card
+                    </h1>
+                    <form action="" method="POST" id="payment-form" class="mt-3 payment-form" data-token='{{ publish_key }}' data-next-url='{% if next_url %}{{ next_url }}{% endif %}'>
+                        {% csrf_token %}
+                      <div class="form-row">
+                          <div id="card-element">
+                            <!-- A Stripe Element will be inserted here. -->
+                          </div>
+                      
+                          <!-- Used to display Element errors. -->
+                          <div id="card-errors" role="alert"></div>
+                        </div>
+                      
+                        <button type="submit" class="btn btn-success mt-3" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Add Payment</button>
+                      </form>
+                </div>
+                {% else %}
+                {% if not has_card %}
+                    <!-- Credit card here -->
+                    <h1 class="mb-3 mt-3" for="card-element" style="font-size: 36px; font-family: 'Quicksand', sans-serif; line-height: 56px;font-weight: 800;text-align:center;">
+                        Credit or debit card
+                    </h1>
+                    <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}' data-btn-title='Add Payment'>
+        
+                    </div>
+                {% else %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mr-auto ml-auto text-left">
+                    <h1 class='mt-5 mb-5' style="font-family: 'Quicksand', sans-serif;font-size:36px; line-height:72px; text-align: center; text-transform: uppercase;">Checkout</h1>
+                    <h3 style="font-family: 'Quicksand', sans-serif;font-size:28px; line-height:56px;"><span style="font-weight: bold; text-decoration: underline;">Cart Total:</span>  {{ object.cart.total }} <i class="fas fa-dollar-sign" style="font-size: 20px;"></i></h3>
+                    <h3 style="font-family: 'Quicksand', sans-serif;font-size:28px; line-height:56px;"><span style="font-weight: bold; text-decoration: underline;">Cart items:</span>  {% for product in object.cart.products.all %}{{ product }}, {% endfor %}</h3>
+                    <h3 style="font-family: 'Quicksand', sans-serif;font-size:28px; line-height:56px;"><span style="font-weight: bold; text-decoration: underline;">Shipping Address:</span>  {{ object.shipping_address.get_address }}</h3>
+                    <h3 style="font-family: 'Quicksand', sans-serif;font-size:28px; line-height:56px;"><span style="font-weight: bold; text-decoration: underline;">Billing Address:</span>  {{ object.billing_address.get_address }}</h3>
+                    <h3 style="font-family: 'Quicksand', sans-serif;font-size:28px; line-height:56px;"><span style="font-weight: bold; text-decoration: underline;">Payment Method:</span>  {{ billing_profile.default_card }}( <a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a> )</h3>
+                    <!-- <a href="{% url 'checkout_done' %}" class="btn btn-success mt-3" style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:36px;">Checkout</a> -->
+                    <form class='form' method='POST' action="" style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:36px;">{% csrf_token %}
+                        <button type='submit' class='btn btn-success' style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:36px;">Checkout</button>
+                    </form>
+                </div>
+                {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

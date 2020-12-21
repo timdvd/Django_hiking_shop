@@ -1,0 +1,16 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 col-12 mr-auto ml-auto">
+            <div class="content-section mt-4">
+                {% include 'users/snippets/form.html' %}
+                <div class="border-top mb-4 mt-4 pt-4">
+                    <small class="text-muted">Need an account?<a class="ml-1" href="{% url 'register' %}">Sign Up Now</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

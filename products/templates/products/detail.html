@@ -1,0 +1,66 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+<section class="product-show">
+    <div class="container">
+        <h1 class="product-show-h1">Product Show</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-5 col-sm-8 col-12">
+                {% if images %}
+                <div class="flexslider">
+                    <ul class="slides">
+                      <li data-thumb="{{ product.image.url }}">
+                        <img src="{{ product.image.url }}" />
+                      </li>
+                      {% for img in images %}
+                      <li data-thumb="{{ img.image.url }}">
+                        <img src="{{ img.image.url }}" />
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% else %}
+                  <img src="{{ product.image.url }}" alt="" class="mt-5">
+                  {% endif %}
+            </div>
+            <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                <div class="product-show-info">
+                    <h1>{{ product.title }}</h1>
+                    <p>{{ product.description }}</p>
+                    <div class="product-category">
+                        Category:  {{ product.category|capfirst }}
+                    </div>
+                    <div class="product-show-szcr">
+                        <div class="form-group">
+                            <label for="form-control" class="size-label">Size</label>
+                            <select class="form-control form-control-sm">
+                                <option>Small</option>
+                                <option>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>
+                        <div class="product-color">
+                            <ul>
+                                <li><a href="#" class="color blue"></a></li>
+                                <li><a href="#" class="color yellow"></a></li>
+                                <li><a href="#" class="color black"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="product-show-lower">
+                        <div class="product-show-price">{{ product.price }} <i class="fas fa-dollar-sign"></i></div>
+                        <div class="product-show-lower-buy">
+                            {% if product in cart.products.all %}
+                                <a href="{% url 'cart' %}" class='mr-3' style="font-family: 'Quicksand', sans-serif;font-size:24px; line-height:50px; text-align: center;text-decoration: none;">In cart</a>
+                            {% else %}
+                                <a href="{% url 'cart_update' product.slug %}" class="add-cart"><i class="fas fa-shopping-cart"></i></a>
+                            {% endif %}
+                            <a href="#" class="product-show-order">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

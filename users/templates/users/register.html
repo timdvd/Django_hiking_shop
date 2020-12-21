@@ -1,0 +1,25 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container" style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:36px;" >
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 col-12 mr-auto ml-auto">
+            <div class="content-section mt-5">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4" style="font-size: 36px; font-family: 'Quicksand', sans-serif; line-height: 56px;">Register</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                    </div>
+                </form>
+                <div class="border-top mb-4 mt-4 pt-4">
+                    <small class="text-muted">Already have an account<a class="ml-1" href="{% url 'login' %}">Sign In Now</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

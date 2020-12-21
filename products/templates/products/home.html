@@ -1,0 +1,164 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+<section class="selection animated fadeIn delay-1s">
+    <div class="container">
+        <div class="row" style="width: 100%;">
+            <div class="col-lg-7 col-md-7 col-sm-8 col-12">
+                <div class="selection-list">
+
+                    <div class="select">
+                        <input type="checkbox" name="men" value="men" class="check">
+                        <label for="men">Men</label>
+                    </div>
+
+                    <div class="select">
+                        <input type="checkbox" name="women" value="women" class="check">
+                        <label for="women">Women</label>
+                    </div>
+
+                    <div class="select">
+                        <input type="checkbox" name="children" value="children" class="check">
+                        <label for="children">Children</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-4 col-12">
+                {% include 'products/snippets/form.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+<section class="products animated fadeIn delay-1s">
+    <div class="container">
+        {% if men_products %}
+        <div class="men">
+            <div class="section-title">Men<div class="line"></div></div>
+            <div class="row products-slider">
+                {% for product in men_products %}
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12">
+                    <div class="product">
+                        <a href="{% url 'product_detail' product.slug %}" class="product-overlay"></a>
+                        <div class="product-top">
+                            <div class="product-size">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Size 
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="#">Small</a>
+                                      <a class="dropdown-item" href="#">Medium</a>
+                                      <a class="dropdown-item" href="#">Large</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-color">
+                                <ul>
+                                    <li><a href="#" class="color blue"></a></li>
+                                    <li><a href="#" class="color yellow"></a></li>
+                                    <li><a href="#" class="color black"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-image">
+                            <img src="{{ product.image.url }}" alt="">
+                        </div>
+
+                        <div class="product-bottom">
+                            <div class="product-name">{{ product.title }}</div>
+                            <div class="product-price">{{ product.price }} <i class="fas fa-dollar-sign"></i></div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if women_products %}
+        <div class="women">
+            <div class="section-title">Women<div class="line"></div></div>
+            <div class="row products-slider">
+                {% for product in women_products %}
+                    <div class="col-lg-4 col-md-3 col-sm-6 col-12">
+                        <div class="product">
+                            <a href="{% url 'product_detail' product.slug %}" class="product-overlay"></a>
+                            <div class="product-top">
+                                <div class="product-size">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Size 
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Small</a>
+                                        <a class="dropdown-item" href="#">Medium</a>
+                                        <a class="dropdown-item" href="#">Large</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-image">
+                                <img src="{{ product.image.url }}" alt="">
+                            </div>
+
+                            <div class="product-bottom">
+                                <div class="product-name">{{ product.title }}</div>
+                                <div class="product-price">{{ product.price }} <i class="fas fa-dollar-sign"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if children_products %}
+        <div class="children">
+            <div class="section-title">Children<div class="line"></div></div>
+            <div class="row products-slider">
+                {% for product in children_products %}
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12">
+                    <div class="product">
+                        <a href="{% url 'product_detail' product.slug %}" class="product-overlay"></a>
+                        <div class="product-top">
+                            <div class="product-size">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Size 
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      <a class="dropdown-item" href="#">Small</a>
+                                      <a class="dropdown-item" href="#">Medium</a>
+                                      <a class="dropdown-item" href="#">Large</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-image">
+                            <img src="{{ product.image.url }} " alt="">
+                        </div>
+
+                        <div class="product-bottom">
+                            <div class="product-name">{{ product.title }}</div>
+                            <div class="product-price">{{ product.price }} <i class="fas fa-dollar-sign"></i></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<section class="about animated fadeIn delay-1s">
+    <div class="container">
+        <div class="about-block">
+            <div class="about-block-h1">About Us</div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

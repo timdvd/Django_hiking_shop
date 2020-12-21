@@ -1,0 +1,40 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class='mt-5' style="font-family: 'Quicksand', sans-serif;font-size:36px; line-height:72px; text-align: center;">Cart</h1>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 col-12 mt-5 mr-auto ml-auto">
+            {% if cart.products.exists %}
+            <table class="table table-bordered">
+                <thead>
+                  <tr style="font-family: 'Quicksand', sans-serif;font-size:24px; line-height:36px;">
+                    <th scope="col">#</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Price</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for product in cart.products.all %}
+                  <tr style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:24px;">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.price }}   <i class="fas fa-euro-sign" style="font-size:16px;"></i></td>
+                    <td><a href="{% url 'cart_delete' product.slug %}" style="text-decoration: none;">Remove</a></td>
+                  </tr>
+                  {% endfor %}
+                  <tr style="font-family: 'Quicksand', sans-serif;font-size:18px; line-height:24px; font-weight: 800;">
+                    <td colspan="3"><b>Total</b></td>
+                    <td><b>{{ cart.total }}   <i class="fas fa-dollar-sign" ></i></b></td>
+                  </tr>
+                  <tr>
+                    <td colspan='3'></td>
+                    <td><a href="{% url 'checkout' %}" class="btn btn-block btn-success">Checkout</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
